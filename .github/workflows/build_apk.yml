@@ -36,4 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Wellbeing-App-Release
-          path: build/apk/*.apk
+          # Arahin ke folder frontend karena Flet nge-build di sana
+          path: frontend/build/apk/*.apk
+          # Tambahin ini biar kalau gagal dia kasih tau kenapa
+          if-no-files-found: error
