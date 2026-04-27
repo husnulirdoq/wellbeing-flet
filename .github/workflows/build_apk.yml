@@ -32,7 +32,7 @@ jobs:
           flet build apk --target frontend/main.py
 
       - name: Upload APK Result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Wellbeing-App-Release
           path: build/apk/*.apk
