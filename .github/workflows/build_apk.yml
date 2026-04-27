@@ -28,8 +28,11 @@ jobs:
 
       - name: Build APK
         run: |
-          # PENTING: Arahkan ke file di dalam folder frontend
-          flet build apk --target frontend/main.py --project-name "WellbeingApp"
+          cd frontend
+          flet build apk main.py --project-name "WellbeingApp"
+          # Pindahin hasil build ke folder utama biar kedetect upload-artifact
+          mkdir -p ../build/apk
+          cp -R build/apk/* ../build/apk/
 
       - name: Upload APK Result
         uses: actions/upload-artifact@v4
