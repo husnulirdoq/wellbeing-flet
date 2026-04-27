@@ -1,0 +1,38 @@
+name: Build Android APK
+on:
+  push:
+    branches:
+      - main  # Trigger jalan tiap lo push ke branch main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/checkout@v3
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install flet
+          pip install -r frontend/requirements.txt
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Build APK
+        run: |
+          # Perintah sakti buat build APK lewat Flet
+          flet build apk --target frontend/main.py
+
+      - name: Upload APK Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: Wellbeing-App-Release
+          path: build/apk/*.apk

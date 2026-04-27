@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Flet / Flutter Build
+build/
+dist/
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private info (kalo lo ada file rahasia)
+.env

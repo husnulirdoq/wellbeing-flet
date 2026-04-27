@@ -1,0 +1,6 @@
+name: wellbeing_app
+description: Aplikasi Wellbeing Husnul Aqib
+version: 1.0.0+1
+
+flutter:
+  uses-material-design: true
