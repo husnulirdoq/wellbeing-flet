@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK & Deploy HF
 on:
   push:
     branches: [ main ]
@@ -9,7 +9,19 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Penting supaya git push ke HF lancar
 
+      # --- BAGIAN HUGGING FACE (Server/API Update) ---
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          # Ganti 'Username/Repo' sesuai punya lo
+          git remote add hf https://x-access-token:$HF_TOKEN@huggingface.co/spaces/husnulirdoq/wellbeing-flet-api
+          git push --force hf main
+
+      # --- BAGIAN ANDROID (Build APK) ---
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -18,7 +30,6 @@ jobs:
       - name: Install Flet & Dependencies
         run: |
           pip install flet requests
-          # Install requirements khusus folder frontend lo
           if [ -f frontend/requirements.txt ]; then pip install -r frontend/requirements.txt; fi
 
       - name: Setup Flutter
@@ -28,15 +39,11 @@ jobs:
 
       - name: Build APK
         run: |
-          # Jalanin build dari root folder proyek lo
-          # Format: flet build apk [path_folder_aplikasi]
           flet build apk frontend
 
       - name: Upload APK Result
         uses: actions/upload-artifact@v4
         with:
           name: Wellbeing-App-Release
-          # Arahin ke folder frontend karena Flet nge-build di sana
           path: frontend/build/apk/*.apk
-          # Tambahin ini biar kalau gagal dia kasih tau kenapa
           if-no-files-found: error

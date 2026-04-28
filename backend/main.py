@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# CORS udah bener, ini krusial biar Flet bisa akses
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,6 +18,10 @@ db_tasks = []
 
 class Task(BaseModel):
     content: str
+
+@app.get("/")
+def read_root():
+    return {"message": "API is running on Hugging Face!"}
 
 @app.get("/tasks")
 def get_tasks():
@@ -35,6 +40,6 @@ def delete_task(idx: int):
     return {"status": "error"}
 
 if __name__ == "__main__":
-    # Render bakal kasih nomor port otomatis lewat env variable PORT
-    port = int(os.environ.get("PORT", 10000))
+    # GANTI DISINI: Hugging Face default port itu 7860
+    port = int(os.environ.get("PORT", 7860))
     uvicorn.run(app, host="0.0.0.0", port=port)
