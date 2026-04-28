@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Flet & Dependencies
         run: |
-          pip install flet requests
+          pip install flet requests  # <-- Pastiin requests ada di sini
           if [ -f frontend/requirements.txt ]; then pip install -r frontend/requirements.txt; fi
 
       - name: Setup Flutter
